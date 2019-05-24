@@ -1,12 +1,15 @@
+
 # Github Issue Reporter
 
 Application is live here: <https://issue-reporter.herokuapp.com/>
 
 The application takes URL of any public Github repository as input and lists the following:
-    1. Number of open issues
-    2. Number of issues opened in last 24 hours
-    3. Number of issues opened in last week (not including those of last 24 hours)
-    4. Number of issues opened earlier
+
+ 1. Number of open issues
+ 2. Number of issues opened in last 24 hours
+ 3. Number of issues opened in last week (not including those of last 24 hours)
+ 4. Number of issues opened earlier
+
 
 ### Overview
 1. UI takes URL of Github Repository
@@ -44,16 +47,18 @@ $ npm start
 
 ###### Application
 - App component
-        - Renders Header component, markup for content, Results component with state and isLoading as props
-        - Uses state hook for input query, isLoading and data
-        - On search, fetch results from API and set the state which is passed down as props
+	1. Renders Header component, markup for content, Results component with state and isLoading as props
+	2. Uses state hook for input query, isLoading and data
+	3. On search, fetch results from API and set the state which is passed down as props
+
 - Header component
-        - Presentational component to render the header of the page
-        - Just displays the application name in short
+	1. Presentational component to render the header of the page
+	2. Just displays the application name in short
+
 - Results component
-        - Takes in isLoading and data as props
-        - If isLoading is true, display loading image
-        - Else, based on the staus property of data, display either a message or the deatails with counts
+	1. Takes in isLoading and data as props
+	2. If isLoading is true, display loading image
+	3. Else, based on the staus property of data, display either a message or the details
 
 
 ### Bootstrap
