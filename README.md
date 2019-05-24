@@ -66,5 +66,5 @@ $ npm start
 
 
 ### Future scope
-- Display the user details (name, photo, profile url, etc.) along with the issues
-- List down the issues(name, tags, created_at, etc.) along with the count
+- Display the user details (name, photo, profile url, etc) and repository details
+- List down the issues and their details(name, tags, created_at, etc.)
