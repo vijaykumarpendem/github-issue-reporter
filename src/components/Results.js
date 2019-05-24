@@ -45,7 +45,7 @@ const Results = props => {
         );
         break;
       case "INVALID_REPO":
-        output = getMessageTemplate("That is an invalid reposiotry!");
+        output = getMessageTemplate("That is an invalid repository!");
         break;
       case "PRISTINE":
         output = getMessageTemplate("Search for a repository!");

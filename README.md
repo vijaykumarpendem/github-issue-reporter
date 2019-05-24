@@ -1,6 +1,6 @@
 # Github Issue Reporter
 
-Application is live here: <http://www.google.co.in>
+Application is live here: <https://issue-reporter.herokuapp.com/>
 
 The application takes URL of any public Github repository as input and lists the following:
     1. Number of open issues
