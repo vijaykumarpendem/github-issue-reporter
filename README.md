@@ -42,15 +42,17 @@ $ npm start
 
 ### Github API
 - https://api.github.com/repos/{user}/{repo}
-		- Returns the information about the repository
-		- It contains the property 'open_issues_count'
-		- The count includes pull_requests along with the issues
+	1. Returns the information about the repository
+	2. It contains the property 'open_issues_count'
+	3. The count includes pull_requests along with the issues
+
 - https://api.github.com/repos/{user}/{repo}/issues
-		- The API's per_page default param equals 30 (observed)
-		- The API can be called with per_page param to fetch extra records, maximum is 100 (observed)
-		- If there are more than 100 issues, the API has to be called multiple times changing the per_page query param
-		- The results include pull_requests as well. So, those have to be filtered out.
-		- A record fetched can be decided as a pull_request and not an issue if it has a property pull_request
+	1. The API's per_page default param equals 30 (observed)
+	2. The API can be called with per_page param to fetch extra records, maximum is 100 (observed)
+	3. If there are more than 100 issues, the API has to be called multiple times changing the per_page query param
+	4. The results include pull_requests as well. So, those have to be filtered out
+	5. A record fetched can be decided as a pull_request and not an issue if it has a property pull_request
+
 
 ### React.js
 ###### Overview
@@ -79,5 +81,6 @@ $ npm start
 
 ### Future scope
 - While fetching results, instead of simply showing the loading indicator, it can be shown as progress based on how many pagination calls are finished
+- The other better approach would be, there should be a backend application taking initial request call for issues API, call API multiple times and send the browser the final result. This way, client browser need not fire multiple calls.
 - Display the user details (name, photo, profile url, etc) and repository details
 - List down the issues and their details(name, tags, created_at, etc.)
