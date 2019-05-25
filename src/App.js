@@ -3,6 +3,13 @@ import Results from './components/Results';
 import './App.css';
 import config from './config';
 
+const Statuses = {
+  VALID_REPO: "VALID_REPO",
+  INVALID_REPO: "INVALID_REPO",
+  PRISTINE: "PRISTINE",
+  ERROR: "ERROR"
+};
+
 /**
 * Header Component - To display the page header
 */
@@ -29,7 +36,7 @@ const App = () => {
     lastDayCount: null,
     lastWeekCount: null,
     earlierCount: null,
-    status: 'PRISTINE'
+    status: Statuses.PRISTINE
   };
   const [state, setState] = useState(defaultState);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,17 +62,35 @@ const App = () => {
     const repoUrlInfo = repoUrlQuery.split('/').reverse();
     const repoName = repoUrlInfo[0];
     const userName = repoUrlInfo[1];
-    let issuesUrl = `https://api.github.com/repos/${userName}/${repoName}/issues?client_id=${config.clientId}&client_secret=${config.clientSecret}`;
+    let repoUrl = `https://api.github.com/repos/${userName}/${repoName}`;
     try {
-      const response = await fetch(issuesUrl);
+      const response = await fetch(repoUrl);
       const data = await response.json();
       if(data.message === "Not Found") {
-        setState({...state, status: 'INVALID_REPO'});
-      } else {
-        setDetails(data);
+        setState({...state, status: Statuses.INVALID_REPO});
+        return;
+      }
+      else {
+        let issueCount = data.open_issues_count; // Includes pull_requests along with issues according to API design
+        let page = 1;
+        let urls = [];
+        while(page<=Math.ceil(issueCount/100)) {
+          let issuesUrl = `https://api.github.com/repos/${userName}/${repoName}/issues?per_page=100&page=${page}&client_id=${config.clientId}&client_secret=${config.clientSecret}`;
+          urls.push(issuesUrl);
+          page++;
+        }
+        // Waits for all promises to resolve independently and gets data from individual calls
+        const issueCollection = await Promise.all(
+              urls.map(url => fetch(url).then(response=>response.json()))
+            );
+        // Each independent response array has pull_requests also
+        // They can be filtered about checking pull_request key as per Github API documentation
+        let totalIssues = issueCollection.reduce((acc, array)=>acc.concat(array.filter(issue=>!issue.pull_request)), []);
+        setDetails(totalIssues);
       }
     } catch(e) {
-      setState({...state, status: 'ERROR'});
+      console.log(e);
+      setState({...state, status: Statuses.ERROR});
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +127,7 @@ const App = () => {
       lastDayCount,
       lastWeekCount,
       earlierCount,
-      status: 'VALID_REPO'
+      status: Statuses.VALID_REPO
     });
   }
 
